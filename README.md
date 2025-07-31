@@ -68,6 +68,89 @@ Creates a new task list.
 }
 ```
 
+#### Get Task List by ID
+
+```http
+GET /task-lists/{task_list_id}
+```
+
+Returns a specific task list by its ID.
+
+**Parameters**
+
+| Name         | Type | In   | Description                     |
+| ------------ | ---- | ---- | ------------------------------- |
+| task_list_id | UUID | path | ID of the task list to retrieve |
+
+**Response**
+
+```json
+{
+  "id": "uuid",
+  "title": "string",
+  "description": "string",
+  "count": 0,
+  "progress": 0.0,
+  "tasks": []
+}
+```
+
+#### Update Task List
+
+```http
+PUT /task-lists/{task_list_id}
+```
+
+Updates an existing task list.
+
+**Parameters**
+
+| Name         | Type | In   | Description                   |
+| ------------ | ---- | ---- | ----------------------------- |
+| task_list_id | UUID | path | ID of the task list to update |
+
+**Request Body**
+
+```json
+{
+  "title": "string",
+  "description": "string"
+}
+```
+
+**Response**
+
+```json
+{
+  "id": "uuid",
+  "title": "string",
+  "description": "string",
+  "count": 0,
+  "progress": 0.0,
+  "tasks": []
+}
+```
+
+#### Delete Task List
+
+```http
+DELETE /task-lists/{task_list_id}
+```
+
+Deletes a task list.
+
+**Parameters**
+
+| Name         | Type | In   | Description                   |
+| ------------ | ---- | ---- | ----------------------------- |
+| task_list_id | UUID | path | ID of the task list to delete |
+
+**Response**
+
+```http
+204 No Content
+```
+
 ## Data Types
 
 ### TaskList
