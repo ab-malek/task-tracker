@@ -16,7 +16,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tasks")
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
@@ -47,8 +46,10 @@ public class Task {
     @Column(name = "updated", nullable = false)
     private LocalDateTime updated;
 
-    public Task(UUID uuid, String string, String string2, LocalDateTime localDateTime, TaskStatus taskStatus,
-            TaskPriority taskPriority, Object object, Object object2, Object object3) {
+
+    
+
+    public Task() {
     }
 
     public Task(UUID id, String title, String description, LocalDateTime dueDate, TaskStatus status,
