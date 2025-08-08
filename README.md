@@ -151,6 +151,151 @@ Deletes a task list.
 204 No Content
 ```
 
+
+### Tasks
+
+#### Get All Tasks in a List
+```http
+GET /task-lists/{task_list_id}/tasks
+```
+
+Returns all tasks in a specific task list.
+
+**Parameters**
+| Name         | Type | In   | Description           |
+|--------------|------|------|-----------------------|
+| task_list_id | UUID | path | ID of the task list  |
+
+**Response**
+```json
+[
+  {
+    "id": "uuid",
+    "title": "string",
+    "description": "string",
+    "dueDate": "datetime",
+    "priority": "LOW|MEDIUM|HIGH",
+    "status": "OPEN|CLOSED"
+  }
+]
+```
+
+#### Create a Task
+```http
+POST /task-lists/{task_list_id}/tasks
+```
+
+Creates a new task in a specific task list.
+
+**Parameters**
+| Name         | Type | In   | Description           |
+|--------------|------|------|-----------------------|
+| task_list_id | UUID | path | ID of the task list  |
+
+**Request Body**
+```json
+{
+  "title": "string",
+  "description": "string",
+  "dueDate": "datetime",
+  "priority": "LOW|MEDIUM|HIGH",
+  "status": "OPEN|CLOSED"
+}
+```
+
+**Response**
+```json
+{
+  "id": "uuid",
+  "title": "string",
+  "description": "string",
+  "dueDate": "datetime",
+  "priority": "LOW|MEDIUM|HIGH",
+  "status": "OPEN|CLOSED"
+}
+```
+
+#### Get a Specific Task
+```http
+GET /task-lists/{task_list_id}/tasks/{task_id}
+```
+
+Returns a specific task from a task list.
+
+**Parameters**
+| Name         | Type | In   | Description           |
+|--------------|------|------|-----------------------|
+| task_list_id | UUID | path | ID of the task list  |
+| task_id      | UUID | path | ID of the task       |
+
+**Response**
+```json
+{
+  "id": "uuid",
+  "title": "string",
+  "description": "string",
+  "dueDate": "datetime",
+  "priority": "LOW|MEDIUM|HIGH",
+  "status": "OPEN|CLOSED"
+}
+```
+
+#### Update a Task
+```http
+PUT /task-lists/{task_list_id}/tasks/{task_id}
+```
+
+Updates an existing task in a task list.
+
+**Parameters**
+| Name         | Type | In   | Description           |
+|--------------|------|------|-----------------------|
+| task_list_id | UUID | path | ID of the task list  |
+| task_id      | UUID | path | ID of the task       |
+
+**Request Body**
+```json
+{
+  "title": "string",
+  "description": "string",
+  "dueDate": "datetime",
+  "priority": "LOW|MEDIUM|HIGH",
+  "status": "OPEN|CLOSED"
+}
+```
+
+**Response**
+```json
+{
+  "id": "uuid",
+  "title": "string",
+  "description": "string",
+  "dueDate": "datetime",
+  "priority": "LOW|MEDIUM|HIGH",
+  "status": "OPEN|CLOSED"
+}
+```
+
+#### Delete a Task
+```http
+DELETE /task-lists/{task_list_id}/tasks/{task_id}
+```
+
+Deletes a specific task from a task list.
+
+**Parameters**
+| Name         | Type | In   | Description           |
+|--------------|------|------|-----------------------|
+| task_list_id | UUID | path | ID of the task list  |
+| task_id      | UUID | path | ID of the task       |
+
+**Response**
+```
+204 No Content
+```
+
+
+
 ## Data Types
 
 ### TaskList

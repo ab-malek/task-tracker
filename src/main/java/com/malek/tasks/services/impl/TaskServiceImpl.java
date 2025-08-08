@@ -2,6 +2,7 @@ package com.malek.tasks.services.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ import com.malek.tasks.repositories.TaskListRepository;
 import com.malek.tasks.repositories.TaskRepository;
 import com.malek.tasks.services.TaskService;
 
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -22,9 +25,9 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final TaskListRepository taskListRepository;
 
-    public TaskServiceImpl(TaskRepository taskRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, TaskListRepository taskListRepository) {
         this.taskRepository = taskRepository;
-        this.taskListRepository = null;
+        this.taskListRepository = taskListRepository;
     }
 
     @Override
@@ -32,9 +35,11 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByTaskListId(taskListId);    
     }
 
+    
+    @Transactional
     @Override
     public Task createTask(UUID taskListId, Task task) {
-        if(null == task.getId()){
+        if(null != task.getId()){
             throw new IllegalArgumentException("Task has already an ID");
         }
 
@@ -64,6 +69,43 @@ public class TaskServiceImpl implements TaskService {
             );
 
         return taskRepository.save(newTask);
+    }
+
+    @Override
+    public Optional<Task> getTask(UUID taskListId, UUID taskId) {
+        return taskRepository.findByTaskListIdAndId(taskListId, taskId);
+    }
+
+
+    @Transactional
+    @Override
+    public Task updateTask(UUID taskListId, UUID taskId, Task task) {
+        if(null == task.getId()){
+            throw new IllegalArgumentException("Task ID does not match the provided ID");
+        }
+
+        if(!Objects.equals(taskId, task.getId())){
+            throw new IllegalArgumentException("You cannot change task ID");
+        }
+        
+
+        Task existingTask = taskRepository.findByTaskListIdAndId(taskListId, taskId)
+            .orElseThrow(() -> new IllegalArgumentException("Task not found"));
+
+        existingTask.setTitle(task.getTitle());
+        existingTask.setDescription(task.getDescription());
+        existingTask.setDueDate(task.getDueDate());
+        existingTask.setPriority(Optional.ofNullable(task.getPriority()).orElse(existingTask.getPriority()));
+        existingTask.setStatus(Optional.ofNullable(task.getStatus()).orElse(existingTask.getStatus()));
+        existingTask.setUpdated(LocalDateTime.now());
+
+        return taskRepository.save(existingTask);
+    }
+
+    @Transactional
+    @Override
+    public void deleteTask(UUID taskListId, UUID taskId) {
+        taskRepository.deleteByTaskListIdAndId(taskListId, taskId);
     }
 
 }

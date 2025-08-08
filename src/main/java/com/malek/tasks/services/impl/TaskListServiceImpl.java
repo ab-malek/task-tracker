@@ -12,6 +12,8 @@ import com.malek.tasks.domain.entities.TaskList;
 import com.malek.tasks.repositories.TaskListRepository;
 import com.malek.tasks.services.TaskListService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class TaskListServiceImpl implements TaskListService {
 
@@ -54,6 +56,7 @@ public class TaskListServiceImpl implements TaskListService {
         return taskListRepository.findById(id);
     }
 
+    @Transactional
     @Override
     public TaskList updateTaskList(UUID taskListId, TaskList taskList) {
         if(null == taskList.getId()){
